@@ -5,5 +5,6 @@ long switch_prob(long x, long n) {
     case 64: return x / 8;
     case 62: x *= 15;
     case 65: x *= x;
-    case 63: return x + 75;
+    default: x + 75;
+  return x;
 }

@@ -7,7 +7,7 @@ int puzzle(long x, unsigned n) {
     x >>= 1;
     d ++;
   } while (d != n);
-   return d;
+   return a;
 }
 
 int puzzle(long x, unsigned n) {
