@@ -4,6 +4,10 @@
 main:
     push %rbp
     mov  %rsp, %rbp
+    push %r12
+    push %r13
+    push %r14
+    push %rbx
     argc = %rdi
     argv = %r12
     arr  = %r13
@@ -41,6 +45,10 @@ body:
     pop  arr_size
     pop  argc
     lea  (%rsp,arr_size,8), %rsp
+    pop  %rbx
+    pop  %r14
+    pop  %r13
+    pop  %r12
     pop  %rbp
     ret
     .size main, . - main

@@ -60,30 +60,3 @@ clz:
     sub %rdi, %rax
     ret
 
-.size clz, . - clz
-;     l = %r8
-;     r = %r9
-;     mov $64, l
-;     mov $0,  r
-; beg:
-;     mov l, %rcx
-;     add r, %rcx
-;     shr %rcx
-;     mov $1, %rsi
-;     shl %cl, %rsi
-;     cmp %rsi, %rdi
-;     jb bel
-;     ja abv
-;     jmp fin
-; bel:
-;     cmp r, %rcx
-;     je fin
-;     mov %rcx, l
-;     jmp beg
-; abv:
-;     mov %rcx, r
-;     jmp beg
-; fin:
-;     mov $64, %rax
-;     sub %rcx, %rax
-;     ret
