@@ -1,0 +1,4 @@
+- `avg_seek_time = 32768 / 2048 / 3 = 5.3 ms`
+- `avg_rot_delay = 60000 / 7200 / 2 = 4.16 ms`
+- `sec_transfer  = 60000 / 7200 / 512 = 0.016 ms`
+- `avg_acces_t   = avg_seek_time + avg_rot_delay + sec_transfer = 9.47 ms`
