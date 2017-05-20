@@ -75,10 +75,24 @@ int randwalk2(uint8_t *arr, int n, int len) {
       dir = fast_random();
     }
 
+    int d = ((dir >> k) & 3);
     sum += arr[i * n + j];
+    
+    int c = (d == 0) & (i > 0);
+    int di = c > 0 ? -1 : 0;
+    i += di;
+    
+    c  = (d == 1) & (i < n - 1);
+    di = c > 0 ? 1 : 0;
+    i += di;
+    
+    c  = (d == 2) & (j > 0);
+    di = c > 0 ? -1 : 0;
+    j += di;
 
-    /* XXX: Replace switch statement with code that does not use branch
-     * instructions. */
+    c  = (d != 2) & (j < n - 1);
+    di = c > 0 ? 1 : 0;
+    d += di;
   } while (--len);
 
   return sum;
