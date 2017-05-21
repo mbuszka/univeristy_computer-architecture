@@ -55,6 +55,7 @@ bool binary_search(int *arr, long size, int x) {
 
 bool heap_search(int *arr, long size, int x) {
   long i = 1;
+//  int r = 0;
   do {
     int y = arr[i - 1];
     long j = i * 2;
@@ -62,6 +63,7 @@ bool heap_search(int *arr, long size, int x) {
       j |= 1;
     if (y == x)
       return true;
+//    r = y == x ? 1 : r;
     i = j;
   } while (i <= size);
   return false;

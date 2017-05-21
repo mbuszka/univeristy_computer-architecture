@@ -8,6 +8,8 @@
 #include "common.h"
 
 #define DEBUG 0
+#define VERSION 'b'
+
 
 /* Do not touch this procedure! */
 int array_walk(volatile int *array, int steps) {
@@ -29,16 +31,40 @@ int array_walk(volatile int *array, int steps) {
 /* XXX: You are only allowed to change this procedure! */
 void generate_permutation(int *array, int size) {
   /* Walk over every even element, then over every odd. */
-  for (int i = 0; i < size - 1; i += 2) {
-    array[i] = i + 2;
-    array[i + 1] = i + 3;
-  }
+  //for (int i = 0; i < size - 1; i += 2) {
+  //  array[i] = i + 2;
+  //  array[i + 1] = i + 3;
+  //}
 
   /* Link the end of even list to the beginning of odd list. */
-  array[size - 2] = 1;
+  //array[size - 2] = 1;
 
   /* Finish the sequence, note it's not circular! */
-  array[size - 1] = -1;
+  //array[size - 1] = -1;
+  
+  int s;
+  int a = 16;
+  switch (VERSION) {
+    case 'a':
+      s = 64;
+      a = 15;
+      if (size <= a) {
+        array[0] = -1;
+        return;
+      }
+      array[0] = a;
+      for (int i=0; i < size - s; i += s) {
+        array[i - s + a] = i;
+        array[i] = i + a;
+        array[i + a] = -1;
+      }
+      break;
+    case 'b':
+      for (int i=0; i < size; i += a)
+        array[i] = i + a;
+      array[a * (size / a)] = 0;
+      break;
+  }
 }
 
 int main(int argc, char **argv) {
