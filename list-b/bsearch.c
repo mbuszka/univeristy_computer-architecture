@@ -25,7 +25,19 @@ void fill(int *arr, int n) {
 }
 
 void heapify(int *dst, int *src, int n) {
-  /* XXX: Fill in this procedure! */
+  int off  = 0;
+  int step = 2;
+  int part = n / 2;
+  while (off < n) {
+    int j = part;
+    for (int i = off; i < n; i += step) {
+      dst[j] = src[i];
+      j ++;
+    }
+    part /= 2;
+    off += step / 2;
+    step *= 2;
+  }
 }
 
 bool binary_search(int *arr, long size, int x) {
