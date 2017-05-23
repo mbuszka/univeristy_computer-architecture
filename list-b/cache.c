@@ -8,7 +8,9 @@
 #include "common.h"
 
 #define DEBUG 0
-#define VERSION 'b'
+#define VERSION 'c'
+#define L1 (1 << 13)
+#define L2 (1 << 16)
 
 
 /* Do not touch this procedure! */
@@ -44,6 +46,7 @@ void generate_permutation(int *array, int size) {
   
   int s;
   int a = 16;
+  int b = L1;
   switch (VERSION) {
     case 'a':
       s = 64;
@@ -60,9 +63,18 @@ void generate_permutation(int *array, int size) {
       }
       break;
     case 'b':
-      for (int i=0; i < size; i += a)
-        array[i] = i + a;
-      array[a * (size / a)] = 0;
+      array[0] = 0;
+      for (int i=a; i < size; i += a) {
+        array[i-a] = i;
+        array[i] = 0;
+      }
+      break;
+    case 'c':
+      array[0] = 0;
+      for (int i=b; i < size; i += b) {
+        array[i-b] = i;
+        array[i] = 0;
+      }
       break;
   }
 }
