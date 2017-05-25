@@ -31,7 +31,7 @@ int array_walk(volatile int *array, int steps) {
 }
 
 /* XXX: You are only allowed to change this procedure! */
-void generate_permutation(int *array, int size) {
+void generate_permutation(int *array, int size, int perm) {
   /* Walk over every even element, then over every odd. */
   //for (int i = 0; i < size - 1; i += 2) {
   //  array[i] = i + 2;
@@ -44,28 +44,27 @@ void generate_permutation(int *array, int size) {
   /* Finish the sequence, note it's not circular! */
   //array[size - 1] = -1;
   
-  int s;
-  int a = 16;
+  int s = 64;
+  int a = 18;
   int b = L1;
-  switch (VERSION) {
+  switch (perm) {
     case 'a':
-      s = 64;
-      a = 15;
-      if (size <= a) {
-        array[0] = -1;
-        return;
-      }
       array[0] = a;
-      for (int i=0; i < size - s; i += s) {
+      if (size < a) {
+        array[0] = 0;
+	break;
+      }
+      array[a] = 0;
+      for (int i=s; i < size - a; i += s) {
         array[i - s + a] = i;
         array[i] = i + a;
-        array[i + a] = -1;
+        array[i + a] = 0;
       }
       break;
     case 'b':
       array[0] = 0;
-      for (int i=a; i < size; i += a) {
-        array[i-a] = i;
+      for (int i=16; i < size; i += 16) {
+        array[i-16] = i;
         array[i] = 0;
       }
       break;
@@ -80,22 +79,24 @@ void generate_permutation(int *array, int size) {
 }
 
 int main(int argc, char **argv) {
-  int opt, size = -1, steps = -1, times = -1;
+  int opt, size = -1, steps = -1, times = -1, perm = -1;
   bool error = false;
 
-  while ((opt = getopt(argc, argv, "n:s:t:")) != -1) {
+  while ((opt = getopt(argc, argv, "n:s:t:p:")) != -1) {
     if (opt == 'n') 
       size = 1 << atoi(optarg);
     else if (opt == 's')
       steps = 1 << atoi(optarg);
     else if (opt == 't')
       times = atoi(optarg);
+    else if (opt == 'p')
+      perm = optarg[0] >= 'a' && optarg[0] <= 'c' ? optarg[0] : -1;
     else
       error = true;
   }
 
-  if (error || size < 0 || steps < 0 || times < 0) {
-    printf("Usage: %s -n log2(size) -s log2(steps) -t times\n", argv[0]);
+  if (error || size < 0 || steps < 0 || times < 0 || perm < 0) {
+    printf("Usage: %s -n log2(size) -s log2(steps) -t times -p perm\n", argv[0]);
     exit(EXIT_FAILURE);
   }
 
@@ -105,7 +106,7 @@ int main(int argc, char **argv) {
     fail("Failed to allocate memory!");
 
   printf("Generate array of %d elements (%ld KiB)\n", size, size * sizeof(int) >> 10);
-  generate_permutation(array, size);
+  generate_permutation(array, size, perm);
   flush_cache();
 
   printf("Perfom walk %d times with %d steps each.\n", times, steps);
